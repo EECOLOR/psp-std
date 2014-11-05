@@ -78,7 +78,7 @@ object Build extends sbt.Build {
 
   lazy val api = project setup "api for psp's non-standard standard library"
   lazy val dmz = project setup "dmz for psp's non-standard standard library" dependsOn api
-  lazy val std = project setup "psp's non-standard standard library" dependsOn dmz also guava
+  lazy val std = project setup "psp's non-standard standard library" dependsOn dmz also (guava, spire)
   lazy val pio = project setup "io library for pps-std" dependsOn std
   lazy val jvm = project.usesCompiler.usesParsers setup "jvm library for psp's non-standard standard library" dependsOn pio
   lazy val dev = project setup "psp's even less stable code" dependsOn std

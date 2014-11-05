@@ -68,6 +68,8 @@ package std {
 }
 
 package object std extends psp.std.StdPackage {
+  type BooleanAlgebra[R] = spire.algebra.BooleanAlgebra[R]
+
   type pList[A]    = PolicyList[A]
   type DocSeq      = Each[Doc]
 
