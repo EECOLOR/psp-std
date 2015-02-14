@@ -8,8 +8,7 @@ trait AnyView[+A] extends Any with Each[A] {
   type MapTo[+X] <: AnyView[X]
 }
 
-trait SetView[A] extends Any with AnyView[A] with ExSet[A] {
-}
+trait SetView[A] extends Any with AnyView[A] with ExSet[A]
 
 trait View[+A] extends Any with AnyView[A] {
   type MapTo[+X] <: View[X]
