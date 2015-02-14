@@ -5,9 +5,9 @@ package api
 import scala._
 
 /** The Size hierarchy is:
- *                   Size
+ *                     Size 
  *                  /        \
- *               Atomic      Bounded
+ *               Atomic    Bounded
  *              /      \
  *          Infinite  Precise
  *
