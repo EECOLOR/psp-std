@@ -110,7 +110,7 @@ final class PspStringOps(val self: String) extends AnyVal with ops.DocStringOps 
   def stripMargin: String = stripMargin('|')
   def sanitize: String    = mapChars { case x if x.isControl => '?' }
 
-  def truncateAndLeftJustifyTo(max: Precise) = max leftFormat (normalizeSpace truncateTo max).asis
+  def truncateAndLeftJustifyTo(max: Precise) = max leftFormat (normalizeSpace truncateTo max).doc
   def truncateTo(max: Precise)               = if ((size: Precise) <= max) self else (self take max - 3).force ~ "..."
 
   def normalizeSpace: String = self.trim.replacePattern(

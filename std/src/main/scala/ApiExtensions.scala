@@ -9,12 +9,11 @@ import StdZero._
 trait DocStringOps extends Any {
   def self: String
 
-  def <>(that: Doc): Doc  = self.asis <> that
-  def <+>(that: Doc): Doc = self.asis <+> that
-  def </>(that: Doc): Doc = self.asis </> that
+  def <>(that: Doc): Doc  = doc <> that
+  def <+>(that: Doc): Doc = doc <+> that
+  def </>(that: Doc): Doc = doc </> that
 
-  def doc: Doc           = asis
-  def asis: Doc          = Text(self)
+  def doc: Doc           = Text(self)
   def backticked: Doc    = Text("`" + self + "`")
   def %(args: Doc*): Doc = FormatString(self) % (args: _*)
 }
@@ -40,10 +39,10 @@ class Renderer(indentSize: Int) {
     case Format(FormatString(fmt), args) => fmt.format(args.seq map apply: _*)
   }
 }
-
 class DocOps(val lhs: Doc) extends AnyVal {
-  def <>(rhs: String): Doc  = lhs <> rhs.asis
-  def <+>(rhs: String): Doc = lhs <+> rhs.asis
+  
+  def <>(rhs: String): Doc  = lhs <> rhs.doc
+  def <+>(rhs: String): Doc = lhs <+> rhs.doc
 
   def <>(rhs: Doc): Doc   = Cat(lhs, rhs)
   def <+>(rhs: Doc): Doc  = lhs <> space <> rhs
@@ -91,7 +90,7 @@ class DocOps(val lhs: Doc) extends AnyVal {
   def indent(): Doc       = indent(2)
 
   def surround(left: Doc, right: Doc): Doc       = left <> lhs <> right
-  def surround(left: String, right: String): Doc = left.asis <> lhs <> right.asis
+  def surround(left: String, right: String): Doc = left.doc <> lhs <> right.doc
 
   def inSpaces: Doc       = surround(space, space)
   def inParens: Doc       = surround(lparen, rparen)
@@ -119,7 +118,7 @@ trait DocSeqCommonOps extends Any {
   def joinComma: Doc     = nonEmpties join comma <> space
   def joinDotted: Doc    = this join dot
   def joinLines: Doc     = this join line
-  def joinParents: Doc   = this joinSpaced "with".asis
+  def joinParents: Doc   = this joinSpaced "with".doc
   def joinWords: Doc     = nonEmpties join space
   def optBrackets: Doc   = if (isOnlyEmpties) empty else joinComma.inBrackets
 }

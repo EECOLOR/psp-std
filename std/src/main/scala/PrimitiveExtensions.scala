@@ -3,7 +3,7 @@ package std
 package ops
 
 import java.{ lang => jl }
-import api._, StdShow._
+import api._
 import lowlevel._
 
 final object UnitOps {
@@ -55,9 +55,14 @@ final class AnyRefOps[A <: AnyRef](val x: A) extends AnyVal {
   @inline def doto(f: A => Unit): x.type            = sideEffect(f(x))
   @inline def sideEffect(body: Unit): x.type        = x
 
+  // We only need showInt, if we bring in Show[String] the `.doc` on `String` will become
+  // ambiguous. This is caused by the fact that `AnyRefOps` is part of the `Gateway` that
+  // also contains the other `.doc` implicit enhancements.
+  import StdShow.showInt
+  
   def debug(implicit z: Show[A]): x.type = sideEffect(echoErr(z show x))
-  def this_s(implicit z: Show[A]): Doc   = "[".asis <> x.shortClass.asis <> "]".asis <+> x.doc
-  def debug_s(implicit z: Show[A]): Doc  = x.shortClass.asis <+> "id=".asis <> x.id_##.doc <+> x.doc
+  def this_s(implicit z: Show[A]): Doc   = "[".doc <> x.shortClass.doc <> "]".doc <+> x.doc
+  def debug_s(implicit z: Show[A]): Doc  = x.shortClass.doc <+> "id=".doc <> x.id_##.doc <+> x.doc
 }
 
 final class CharOps(val ch: Char) extends AnyVal {
