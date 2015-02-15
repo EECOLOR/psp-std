@@ -25,8 +25,15 @@ object Algebras {
     private def maybeParens(lhs: Label, op: String, rhs: Label): String =
       if (lhs.isSafe && rhs.isSafe) s"$lhs $op $rhs" else s"($lhs $op $rhs)"
 
-    def and(x: Label, y: Label): Label = if (x.isZero || y.isZero) zero else if (x.isOne) y else if (y.isOne) x else Label(maybeParens(x, "&&", y))
-    def or(x: Label, y: Label): Label  = if (x.isBool && !y.isBool) y else if (y.isBool && !x.isBool) x else Label(maybeParens(x, "||", y))
+    def and(x: Label, y: Label): Label = if (x.isZero || y.isZero) zero
+                                         else if (x.isOne) y
+                                         else if (y.isOne) x
+                                         else Label(maybeParens(x, "&&", y))
+
+    def or(x: Label, y: Label): Label  = if (x.isBool && !y.isBool) y
+                                         else if (y.isBool && !x.isBool) x
+                                         else Label(maybeParens(x, "||", y))
+
     def not(x: Label): Label           = Label( if (x.isSafe) s"!$x" else "!($x)" )
     def zero                           = Label.Zero
     def one                            = Label.One
